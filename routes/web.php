@@ -13,13 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 // Route::get('/projetos', 'ProjetoController@index')->name('projetos');
-Route::resource('projetos', 'ProjetoController');
+Route::resource('projetos', 'ProjetoController')->middleware('auth');
 
-Route::resource('clientes', 'ClienteController');
+Route::resource('clientes', 'ClienteController')->middleware('auth');
 
-Route::resource('categorias', 'CategoriaController');
+Route::resource('categorias', 'CategoriaController')->middleware('auth');
+
+Route::resource('chamados', 'ChamadoController')->middleware('auth');
+
+Route::resource('sla', 'SLAController')->middleware('auth');
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Projeto extends Model
 {
     use HasFactory;
-    protected $fillable =['nome', 'data_inicio', 'titulo', 'sla', 'categoria_id', 'situacao_id'];
+    protected $fillable =['nome', 'cliente_id', 'user_id'];
 
-    public function categoria(){
-        return $this->belongsTo('App\Models\Categoria', 'categoria_id', 'id');
+    public function cliente(){
+        return $this->belongsTo('App\Models\Cliente', 'cliente_id', 'id');
     }
 
-    public function situacao(){
-        return $this->belongsTo('App\Models\Situacao', 'situacao_id', 'id');
+    public function user(){
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 }

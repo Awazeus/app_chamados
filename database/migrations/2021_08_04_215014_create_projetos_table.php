@@ -15,15 +15,13 @@ class CreateProjetosTable extends Migration
     {
         Schema::create('projetos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categoria_id');
-            $table->unsignedBigInteger('situacao_id')->default('1');
+            $table->unsignedBigInteger('cliente_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('nome', 20);
-            $table->string('titulo', 30);
-            $table->string('sla', 3);
             $table->timestamps();
 
-            $table->foreign('categoria_id')->references('id')->on('categorias');
-            $table->foreign('situacao_id')->references('id')->on('situacoes');
+            $table->foreign('cliente_id')->references('id')->on('clientes');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

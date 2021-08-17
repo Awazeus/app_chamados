@@ -38,9 +38,11 @@
             
             </div>
 
-            @if ($errors->has('nome'))
+            @if (!$errors->isEmpty())
                 <div class="alert alert-danger" role="alert" >
-                    {{ $errors->first('nome') }}
+                    @if ($errors->has('nome'))
+                        {{ $errors->first('nome') }}
+                    @endif
                 </div>
             @endif
 
