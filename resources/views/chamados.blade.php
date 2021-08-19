@@ -110,7 +110,13 @@
                                     <tr>
                                         <td>{{ $chamado->projeto->nome }}</td>
                                         <td>{{ $chamado->created_at->format('d-m-Y') }}</td>
-                                        <td>{{ $chamado->situacao->nome }}</td>
+                                        @if($chamado->situacao_id==1)
+                                            <td style="color:green">{{ $chamado->situacao->nome }}</td>
+                                        @elseif($chamado->situacao_id==2)
+                                            <td style="color:blue">{{ $chamado->situacao->nome }}</td>
+                                        @else
+                                            <td style="color:red">{{ $chamado->situacao->nome }}</td>
+                                        @endif
                                         <td>{{ $chamado->titulo }}</td>
                                         <td>{{ $chamado->sla->valor }}</td>
                                         <td>{{ $chamado->categoria->nome }}</td>
@@ -120,14 +126,16 @@
                                             </button>
                                         </td> --}}
                                         <td>
-                                            <div class="btn-group-sm" role="group">
-                                                <a class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#modalEditChamado{{ $chamado->id }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#modalDeleteChamado{{ $chamado->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </a>
-                                            </div>
+                                            @if(auth()->user()->id == $chamado->projeto->user_id)
+                                                <div class="btn-group-sm" role="group">
+                                                    <a class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#modalEditChamado{{ $chamado->id }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a class="btn btn-danger" role="button" data-bs-toggle="modal" data-bs-target="#modalDeleteChamado{{ $chamado->id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -182,7 +190,9 @@
                             <select name="projeto_id" id="inputProjeto">
                                 <option></option>
                                 @foreach($projetos as $projeto)
-                                    <option value="{{ $projeto->id }}" {{ old('projeto_id') == $projeto->id ? 'selected' : '' }} >{{ $projeto->nome }}</option>
+                                    @if($projeto->user_id == auth()->user()->id)
+                                        <option value="{{ $projeto->id }}" {{ old('projeto_id') == $projeto->id ? 'selected' : '' }} >{{ $projeto->nome }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <br><br>
